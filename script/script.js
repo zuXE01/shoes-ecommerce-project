@@ -83,9 +83,16 @@ window.userName = userName;
  */
 function init() {
     checkUserAuth();
-    if (!requireAuth()) {
-        return;
+    
+    // Restore cart from sessionStorage if user just logged in after checkout
+    const pendingCart = sessionStorage.getItem('cart_pending_checkout');
+    if (pendingCart && window.currentUser) {
+        window.cart = JSON.parse(pendingCart);
+        sessionStorage.removeItem('cart_pending_checkout');
+        renderCart();
+        openCart();
     }
+    
     initCarousel();
     renderProducts();
     setupEventListeners();

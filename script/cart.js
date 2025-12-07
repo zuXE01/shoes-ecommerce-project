@@ -88,10 +88,10 @@ export function closeCart() {
 
 /**
  * Processes checkout
+ * Requires authentication - redirects to login if not logged in
  * Saves order to localStorage and clears cart
  */
 export function checkout() {
-    const currentUser = window.currentUser;
     const cart = window.cart || [];
     
     if (cart.length === 0) {
@@ -99,6 +99,16 @@ export function checkout() {
         return;
     }
     
+    // Check if user is authenticated
+    if (!window.currentUser) {
+        // Save cart to session storage before redirecting
+        sessionStorage.setItem('cart_pending_checkout', JSON.stringify(cart));
+        alert('Please log in to complete your purchase');
+        window.location.href = 'login.html';
+        return;
+    }
+    
+    const currentUser = window.currentUser;
     const total = cart.reduce((sum, item) => sum + item.price, 0);
     const order = {
         orderId: 'ORD-' + Date.now(),
