@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KICKS_OS | Neo-Brutalist Store</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<body class="bg-gray-100 text-black">
+
+    <!-- ============================================ -->
+    <!-- NAVBAR SECTION -->
+    <!-- ============================================ -->
+    <nav class="sticky top-0 z-40 w-full bg-white border-b-4 border-black px-4 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 bg-black flex items-center justify-center">
+                    <i data-lucide="zap" class="text-lime-400"></i>
+                </div>
+                <span class="text-3xl font-black tracking-tighter italic">KICKS_OS</span>
+            </div>
+            
+            <!-- Right Side: User & Cart -->
+            <div class="flex items-center gap-4">
+                <!-- User Info (shown when logged in) -->
+                <div id="user-section" class="hidden flex items-center gap-4">
+                    <div class="text-right">
+                        <p id="user-name" class="font-bold text-sm"></p>
+                        <button onclick="logout()" class="text-xs font-bold text-red-500 hover:underline">LOGOUT</button>
+                    </div>
+                </div>
+
+                <!-- Login Button (shown when not logged in) -->
+                <a id="login-btn" href="login.html" class="px-3 py-2 font-bold border-2 border-black bg-yellow-400 hover:bg-yellow-300 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hidden">
+                    LOGIN
+                </a>
+
+                <!-- Shopping Cart Button -->
+                <button id="cart-btn" class="relative p-2 border-2 border-black bg-lime-400 hover:bg-lime-300 transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-y-[2px]">
+                    <i data-lucide="shopping-bag"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-black text-white text-xs font-bold w-6 h-6 flex items-center justify-center border-2 border-white">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================ -->
+    <!-- MARQUEE SECTION -->
+    <!-- ============================================ -->
+    <div class="bg-yellow-400 border-b-4 border-black overflow-hidden py-2 whitespace-nowrap">
+        <div class="animate-marquee inline-block font-black text-lg tracking-widest">
+            FREE SHIPPING ON ALL ORDERS OVER $200 • NEW DROP FRIDAY 9AM EST • JOIN THE KICKS CLUB • 
+            FREE SHIPPING ON ALL ORDERS OVER $200 • NEW DROP FRIDAY 9AM EST • JOIN THE KICKS CLUB •
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- MAIN CONTENT -->
+    <!-- ============================================ -->
+    <main class="max-w-7xl mx-auto px-4 py-8 space-y-16">
+        
+        <!-- HERO BENTO GRID SECTION -->
+        <section class="grid grid-cols-1 md:grid-cols-4 grid-rows-4 md:grid-rows-2 gap-4 h-auto md:h-[600px]">
+            
+            <!-- Hero Block - Product Carousel -->
+            <div class="md:col-span-2 md:row-span-2 relative border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] overflow-hidden group">
+                <div id="carousel-container" class="relative w-full h-full">
+                    <div id="carousel-item" class="absolute inset-0 w-full h-full transition-opacity duration-500">
+                        <img id="carousel-image" src="" alt="Featured Product" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                        <div class="absolute bottom-0 left-0 p-8 bg-white/90 border-t-4 border-r-4 border-black">
+                            <h1 id="carousel-title" class="text-4xl md:text-5xl font-black uppercase leading-none"></h1>
+                            <p id="carousel-price" class="text-2xl font-bold mt-2 font-mono"></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Previous Button -->
+                <button id="carousel-prev" class="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2 bg-black text-white border-2 border-white hover:bg-lime-400 hover:text-black transition-colors shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">
+                    <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                </button>
+                
+                <!-- Next Button -->
+                <button id="carousel-next" class="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 bg-black text-white border-2 border-white hover:bg-lime-400 hover:text-black transition-colors shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">
+                    <i data-lucide="chevron-right" class="w-6 h-6"></i>
+                </button>
+                
+                <!-- Carousel Indicators -->
+                <div id="carousel-indicators" class="absolute bottom-0 right-0 z-20 flex gap-2 p-4 bg-black/50 backdrop-blur-sm border-t-2 border-l-2 border-white"></div>
+            </div>
+            
+            <!-- Trending Block -->
+            <div class="md:col-span-1 md:row-span-1 border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] bg-blue-400 p-6">
+                <h2 class="text-2xl font-black uppercase">Trending<br>Now</h2>
+                <p class="font-bold text-sm mt-4 border-t-2 border-black pt-2">The streets are talking.</p>
+            </div>
+
+            <!-- Flash Sale Block -->
+            <div class="md:col-span-1 md:row-span-2 border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] bg-pink-300 relative group">
+                <div class="absolute top-4 right-4 z-10 rotate-12 bg-yellow-400 border-2 border-black px-2 font-black">-30%</div>
+                <img src="https://images.unsplash.com/photo-1605348532760-6753d5c43329?auto=format&fit=crop&q=80&w=600" alt="Flash Sale" class="w-full h-full object-cover">
+                <div class="absolute inset-x-0 bottom-0 p-4 bg-black text-white text-center font-black uppercase hover:bg-lime-400 hover:text-black cursor-pointer border-t-4 border-black">Flash Sale</div>
+            </div>
+
+            <!-- VIP Club Block -->
+            <div class="md:col-span-1 md:row-span-1 border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] bg-white p-6 flex flex-col items-center justify-center text-center">
+                <i data-lucide="star" class="w-12 h-12 text-yellow-400 fill-current mb-2"></i>
+                <h3 class="font-black">VIP CLUB</h3>
+            </div>
+        </section>
+
+        <!-- PRODUCT SECTION -->
+        <section>
+            <!-- Section Header with Filters -->
+            <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4 border-b-4 border-black pb-4">
+                <h2 class="text-5xl font-black uppercase italic tracking-tighter">The Collection</h2>
+                
+                <!-- Filter Buttons -->
+                <div class="flex gap-2" id="filters">
+                    <button class="category-btn px-4 py-2 font-bold border-2 border-black bg-black text-white shadow-[4px_4px_0px_0px_rgba(163,230,53,1)]">ALL</button>
+                    <button class="category-btn px-4 py-2 font-bold border-2 border-black bg-white hover:bg-gray-100">Running</button>
+                    <button class="category-btn px-4 py-2 font-bold border-2 border-black bg-white hover:bg-gray-100">Casual</button>
+                </div>
+            </div>
+            
+            <!-- Product Grid (populated by JavaScript) -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Products injected here by script.js -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============================================ -->
+    <!-- FOOTER SECTION -->
+    <!-- ============================================ -->
+    <footer class="bg-black border-t-4 border-black text-white mt-20">
+        <div class="max-w-7xl mx-auto px-4 py-16">
+            
+            <!-- Footer Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                
+                <!-- Brand Column -->
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-10 h-10 bg-lime-400 flex items-center justify-center">
+                            <i data-lucide="zap" class="text-black"></i>
+                        </div>
+                        <span class="text-2xl font-black tracking-tighter italic">KICKS_OS</span>
+                    </div>
+                    <p class="text-sm font-bold text-gray-300">Premium neo-brutalist footwear for the digital age.</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="font-black uppercase text-lg mb-4 border-b-2 border-lime-400 pb-2">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-lime-400 transition-colors font-bold">Shop All</a></li>
+                        <li><a href="#" class="hover:text-lime-400 transition-colors font-bold">New Arrivals</a></li>
+                        <li><a href="#" class="hover:text-lime-400 transition-colors font-bold">Sale</a></li>
+                        <li><a href="#" class="hover:text-lime-400 transition-colors font-bold">About Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support Links -->
+                <div>
+                    <h3 class="font-black uppercase text-lg mb-4 border-b-2 border-lime-400 pb-2">Support</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-lime-400 transition-colors font-bold">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-lime-400 transition-colors font-bold">Shipping Info</a></li>
+                        <li><a href="#" class="hover:text-lime-400 transition-colors font-bold">Returns</a></li>
+                        <li><a href="#" class="hover:text-lime-400 transition-colors font-bold">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="font-black uppercase text-lg mb-4 border-b-2 border-lime-400 pb-2">Contact</h3>
+                    <div class="space-y-3 text-sm font-bold">
+                        <p>📧 support@kicks-os.com</p>
+                        <p>📞 1-800-KICKS-OS</p>
+                        <p>🕐 Mon-Fri: 9AM-10PM EST<br>Sat-Sun: 10AM-8PM EST</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t-2 border-gray-700 py-8">
+                
+                <!-- Social Media -->
+                <div class="mb-8">
+                    <h3 class="font-black uppercase text-lg mb-4 text-center">Follow Us</h3>
+                    <div class="flex justify-center gap-6 flex-wrap">
+                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="p-3 bg-blue-600 hover:bg-blue-500 border-2 border-white transition-all shadow-[4px_4px_0px_0px_rgba(163,230,53,1)] hover:shadow-[6px_6px_0px_0px_rgba(163,230,53,1)]" title="Facebook">
+                            <i data-lucide="facebook" class="w-6 h-6"></i>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="p-3 bg-pink-600 hover:bg-pink-500 border-2 border-white transition-all shadow-[4px_4px_0px_0px_rgba(163,230,53,1)] hover:shadow-[6px_6px_0px_0px_rgba(163,230,53,1)]" title="Instagram">
+                            <i data-lucide="instagram" class="w-6 h-6"></i>
+                        </a>
+                        <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="p-3 bg-black hover:bg-gray-900 border-2 border-white transition-all shadow-[4px_4px_0px_0px_rgba(163,230,53,1)] hover:shadow-[6px_6px_0px_0px_rgba(163,230,53,1)]" title="TikTok">
+                            <i data-lucide="music" class="w-6 h-6"></i>
+                        </a>
+                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="p-3 bg-blue-400 hover:bg-blue-300 border-2 border-white transition-all shadow-[4px_4px_0px_0px_rgba(163,230,53,1)] hover:shadow-[6px_6px_0px_0px_rgba(163,230,53,1)]" title="Twitter">
+                            <i data-lucide="twitter" class="w-6 h-6 text-black"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Copyright & Legal -->
+                <div class="text-center text-xs font-bold text-gray-400 space-y-2">
+                    <p>&copy; 2024 KICKS_OS. All rights reserved.</p>
+                    <div class="flex justify-center gap-4 flex-wrap">
+                        <a href="#" class="hover:text-lime-400 transition-colors">Privacy Policy</a>
+                        <span>•</span>
+                        <a href="#" class="hover:text-lime-400 transition-colors">Terms of Service</a>
+                        <span>•</span>
+                        <a href="#" class="hover:text-lime-400 transition-colors">Cookie Settings</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================ -->
+    <!-- CART DRAWER -->
+    <!-- ============================================ -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 hidden"></div>
+    <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white border-l-4 border-black z-50 hidden animate-slideIn flex flex-col">
+        
+        <!-- Cart Header -->
+        <div class="p-6 border-b-4 border-black bg-lime-400 flex justify-between items-center">
+            <h2 class="text-3xl font-black uppercase">Your Cart</h2>
+            <button id="close-cart-btn" class="p-2 border-2 border-black bg-white hover:bg-red-500 hover:text-white">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        
+        <!-- Cart Items List -->
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6">
+            <!-- Items injected here by script.js -->
+        </div>
+        
+        <!-- Cart Footer with Total & Checkout -->
+        <div class="p-6 border-t-4 border-black bg-gray-50">
+            <div class="flex justify-between text-xl font-black uppercase mb-4">
+                <span>Total</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+            <button onclick="checkout()" class="w-full py-4 bg-black text-white font-bold text-xl hover:bg-lime-400 hover:text-black border-4 border-black transition-colors">CHECKOUT</button>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- PRODUCT DETAIL MODAL -->
+    <!-- ============================================ -->
+    <div id="product-modal-overlay" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            
+            <!-- Modal Header -->
+            <div class="p-6 border-b-4 border-black bg-lime-400 flex justify-between items-center sticky top-0">
+                <h2 id="modal-product-name" class="text-3xl font-black uppercase"></h2>
+                <button onclick="closeProductModal()" class="p-2 border-2 border-black bg-white hover:bg-red-500 hover:text-white">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="p-8">
+                <!-- Product Image -->
+                <div class="mb-8 border-4 border-black overflow-hidden">
+                    <img id="modal-product-image" src="" alt="Product" class="w-full h-96 object-cover">
+                </div>
+
+                <!-- Product Info Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    
+                    <!-- Left Column: Price & Category -->
+                    <div class="border-4 border-black p-6 bg-gray-50">
+                        <h3 class="text-xl font-black uppercase mb-4 border-b-2 border-black pb-2">Details</h3>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Category</p>
+                                <p id="modal-product-category" class="text-lg font-bold"></p>
+                            </div>
+
+                            <div>
+                                <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Price</p>
+                                <p id="modal-product-price" class="text-2xl font-black">$0.00</p>
+                            </div>
+
+                            <div>
+                                <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Stock Status</p>
+                                <p class="text-lg font-bold text-green-600">✓ In Stock</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Size & Color -->
+                    <div class="border-4 border-black p-6 bg-gray-50">
+                        <h3 class="text-xl font-black uppercase mb-4 border-b-2 border-black pb-2">Options</h3>
+                        
+                        <div class="space-y-4">
+                            <!-- Size Selection -->
+                            <div>
+                                <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Size</p>
+                                <div class="flex flex-wrap gap-2" id="size-selector">
+                                    <button class="size-btn px-4 py-2 font-bold border-2 border-black bg-white hover:bg-lime-400 transition-colors" data-size="6">6</button>
+                                    <button class="size-btn px-4 py-2 font-bold border-2 border-black bg-white hover:bg-lime-400 transition-colors" data-size="7">7</button>
+                                    <button class="size-btn px-4 py-2 font-bold border-2 border-black bg-white hover:bg-lime-400 transition-colors" data-size="8">8</button>
+                                    <button class="size-btn px-4 py-2 font-bold border-2 border-black bg-white hover:bg-lime-400 transition-colors" data-size="9">9</button>
+                                    <button class="size-btn px-4 py-2 font-bold border-2 border-black bg-white hover:bg-lime-400 transition-colors" data-size="10">10</button>
+                                    <button class="size-btn px-4 py-2 font-bold border-2 border-black bg-white hover:bg-lime-400 transition-colors" data-size="11">11</button>
+                                    <button class="size-btn px-4 py-2 font-bold border-2 border-black bg-white hover:bg-lime-400 transition-colors" data-size="12">12</button>
+                                    <button class="size-btn px-4 py-2 font-bold border-2 border-black bg-white hover:bg-lime-400 transition-colors" data-size="13">13</button>
+                                </div>
+                            </div>
+
+                            <!-- Color Selection -->
+                            <div>
+                                <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Color</p>
+                                <div class="flex flex-wrap gap-2" id="color-selector">
+                                    <button class="color-btn px-4 py-2 font-bold border-2 border-black bg-black text-white transition-colors" data-color="Black">Black</button>
+                                    <button class="color-btn px-4 py-2 font-bold border-2 border-black bg-white hover:bg-gray-200 transition-colors" data-color="White">White</button>
+                                    <button class="color-btn px-4 py-2 font-bold border-2 border-black bg-gray-400 text-white transition-colors" data-color="Gray">Gray</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description Section -->
+                <div class="border-4 border-black p-6 bg-gray-50 mb-8">
+                    <h3 class="text-xl font-black uppercase mb-4 border-b-2 border-black pb-2">Description</h3>
+                    <p id="modal-product-description" class="text-sm leading-relaxed font-bold">Premium neo-brutalist footwear designed for urban explorers. Crafted with high-quality materials and bold aesthetics that make a statement.</p>
+                </div>
+
+                <!-- Tag Section (if applicable) -->
+                <div id="modal-tag-section" class="mb-8"></div>
+
+                <!-- Add to Cart Button -->
+                <button onclick="addToCartFromModal()" class="w-full py-4 bg-lime-400 text-black font-black text-xl uppercase border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:bg-lime-300 active:translate-y-[2px] active:shadow-none transition-all">
+                    ADD TO CART
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SCRIPTS -->
+    <!-- ============================================ -->
+    <script>
+        lucide.createIcons();
+    </script>
+    <script type="module" src="script/script.js"></script>
+</body>
+</html>
